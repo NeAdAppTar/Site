@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
+        /* Общие настройки и сброс стилей */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Fira Code", "Courier New", Courier, monospace;
+            background: radial-gradient(circle at center, #062013 0%, #020b06 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px; 
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(25px) saturate(150%);
+            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.6);
+            text-align: center;
+            padding: 45px 30px;
+            margin-bottom: 25px;
+        }
+
+        .avatar-placeholder {
+            width: 85px;
+            height: 85px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            border: 2px solid #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            font-size: 32px;
+        }
+
+        .terminal-prompt {
+            font-size: 26px;
+            color: #10b981;
+            font-weight: bold;
+            position: relative;
+            margin-bottom: 5px;
+        }
+        
+        .terminal-prompt::after {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 24px;
+            background: #10b981;
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .profile-card h1 {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #34d399; 
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .comment {
+            color: #4fa175;
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 3px solid #10b981;
+        }
+
+        /* Стилизация красивой таблички */
+        .info-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin: 25px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .info-table th, .info-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+            vertical-align: top;
+        }
+
+        .info-table th {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 11px;
+            width: 30%;
+        }
+
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .info-table td {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin: 2px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Ссылки и контакты */
+        .contacts-flex {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            background: #10b981;
+            color: #ffffff;
+        }
+        
+        .primary-btn:hover {
+            background: #059669;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .site-footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #475569;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="profile-card">
+            <div class="avatar-placeholder">👨‍💻</div>
+            <div class="terminal-prompt">about.me</div>
+            <h1>Иван</h1>
+            <div class="subtitle">@NeAdAppTar</div>
+            
+            <div class="comment">
+                /* <br>
+                &nbsp;* Привет! Я учусь в школе и активно развиваюсь в сфере программирования и инженерии.<br>
+                &nbsp;* Мой основной профиль — это разработка десктопных приложений с графическим интерфейсом (GUI),<br>
+                &nbsp;* но мне одинаково интересно работать как на программном уровне, так и напрямую с железом.<br>
+                &nbsp;* Создавал комплексные проекты в спортивном радиоклубе.<br>
+                &nbsp;* В свободное время занимаюсь 3D-моделированием, по возможности материализую свои идеи на 3D-принтере.<br>
+                &nbsp;*/
+            </div>
+
+            <!-- Красивая табличка с информацией -->
+            <div class="info-table-wrapper">
+                <table class="info-table">
+                    <tbody>
+                        <tr>
+                            <th>Разработчик</th>
+                            <td>Иван (также известен как <strong>NeAdAppTar</strong>)</td>
+                        </tr>
+                        <tr>
+                            <th>Языки</th>
+                            <td>
+                                <span class="tech-tag">C/C++</span>
+                                <span class="tech-tag">C#</span>
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Desktop & GUI</th>
+                            <td>Разрабатываю полноценные приложения с графическим интерфейсом на WPF, WinForms и WinUI.</td>
+                        </tr>
+                        <tr>
+                            <th>Железо & IoT</th>
+                            <td>Имею практический опыт создания радиоэлектронных устройств в рамках спортивного радиоклуба.</td>
+                        </tr>
+                        <tr>
+                            <th>3D & Инженерия</th>
+                            <td>Проектирую технические детали и корпуса в КОМПАС-3D, немного использую Blender. Самостоятельно подготавливаю модели к печати и изготавливаю их на 3D-принтере.</td>
+                        </tr>
+                        <tr>
+                            <th>Инструменты</th>
+                            <td>Умею пользоваться Git для контроля версий и веду свои проекты на GitHub.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Кнопки-ссылки на контакты -->
+            <div class="contacts-flex">
+                <a href="https://github.com/NeAdAppTar" target="_blank" class="action-btn primary-btn">
+                    GitHub: NeAdAppTar
+                </a>
+                <a href="https://t.me/CePe6P9lHblu" target="_blank" class="action-btn secondary-btn">
+                    Telegram: @CePe6P9lHblu
+                </a>
+            </div>
+        </div>
+
+        <div class="site-footer">
+            &copy; 2026 NeAdAppTar.
+        </div>
+    </div>
+
+</body>
+</html>
