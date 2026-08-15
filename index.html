@@ -3,10 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEADAPPTAR</title>
+    <title>neadapptar</title>
     <link rel="icon" href="icon.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    
+    <style>
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(25px) saturate(150%);
+            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            display: none; 
+            color: #cbd5e1;
+            font-size: 14px;
+            width: max-content;
+            max-width: 90%;
+        }
+
+        .cookie-banner .comment {
+            color: #4fa175;
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        .cookie-btn {
+            background: #10b981;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .cookie-btn:hover {
+            background: #059669;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+        }
+
+        @media (max-width: 600px) {
+            .cookie-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -32,9 +88,44 @@
                 <p><span class="comment">// Мои программы, скрипты и исходный код.</span></p>
                 <span class="card-link">git clone repos →</span>
             </a>
+
+            <!-- Новая карточка для Tweaker -->
+            <a href="/tweaker" class="grid-card">
+                <div class="card-icon"><i class="devicon-windows8-original"></i></div>
+                <h3>Tweaker</h3>
+                <p><span class="comment">// Абсолютный контроль над Windows.</span></p>
+                <span class="card-link">run tweaker.exe →</span>
+            </a>
         </main>
     </div>
 
+    <!-- Плашка Cookie -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div>
+            <span>Мы используем cookie-файлы для улучшения работы сайта.</span>
+            <span class="comment"> // Соглашайтесь и поехали дальше.</span>
+        </div>
+        <button id="cookie-btn" class="cookie-btn">ОК</button>
+    </div>
+
+    <!-- Скрипт для работы Cookie -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const banner = document.getElementById("cookie-banner");
+            const btn = document.getElementById("cookie-btn");
+
+            // Проверяем, есть ли уже согласие в localStorage
+            if (!localStorage.getItem("cookieConsent")) {
+                banner.style.display = "flex";
+            }
+
+            // При клике записываем согласие и скрываем плашку
+            btn.addEventListener("click", function() {
+                localStorage.setItem("cookieConsent", "true");
+                banner.style.display = "none";
+            });
+        });
+    </script>
 
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
