@@ -3,12 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEADAPPTAR's Projects</title>
+    <title>neadapptar's projects</title>
     <link rel="icon" href="icon.png" type="image/png">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap');
+
+        /* Общие настройки и сброс стилей */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Fira Code", "Courier New", Courier, monospace;
+            background: #020b06;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            position: relative;
+            padding: 130px 20px 40px;
+        }
+
+        /* Эффекты фонового свечения */
+        .bg-glow {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(100px);
+            opacity: 0.4;
+        }
+
+        .glow-top-left {
+            top: -20vw;
+            left: -20vw;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+        }
+
+        .glow-bottom-right {
+            bottom: -20vw;
+            right: -20vw;
+            background: radial-gradient(circle, rgba(6, 95, 70, 0.2) 0%, transparent 70%);
+        }
+
+        /* =========================================
+           Плавающая панель навигации (Liquid Glass)
+           ========================================= */
+        .top-navbar {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 30px;
+            
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(25px) saturate(120%);
+            -webkit-backdrop-filter: blur(25px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.05);
+            
+            z-index: 1000;
+        }
+
+        .nav-brand a {
+            font-size: 22px;
+            font-weight: 700;
+            color: #10b981;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+            transition: text-shadow 0.3s;
+        }
+
+        .nav-brand a:hover {
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #10b981;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .top-navbar {
+                padding: 14px 25px;
+                justify-content: center;
+            }
+        }
+
+        /* =========================================
+           Основной контейнер и секции
+           ========================================= */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-navigation {
+            margin-bottom: 30px;
+        }
+
+        .projects-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: #34d399;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
+        }
+
+        .project-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Карточки проектов */
+        .project-list-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-list-card:hover {
+            transform: translateX(8px); /* Смещение вправо при наведении */
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border-color: #34d399;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(52, 211, 153, 0.2);
+        }
+
+        /* Специфично для архива */
+        .project-list-card.archive {
+            border-color: rgba(255, 255, 255, 0.08);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.005) 100%);
+        }
+        
+        .project-list-card.archive:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .project-list-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-right: auto;
+            transition: color 0.3s;
+        }
+
+        .project-list-card:hover h3 {
+            color: #34d399;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #e2e8f0;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .tech-badge i {
+            font-size: 16px;
+        }
+
+        .project-list-card p {
+            font-size: 14.5px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .comment {
+            color: #4fa175;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .card-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 8px;
+        }
+
+        .project-list-card:hover .card-link,
+        .back-navigation .card-link:hover {
+            color: #ffffff;
+            background: #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+            border-color: #10b981;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Фоновые эффекты свечения -->
+    <div class="bg-glow glow-top-left"></div>
+    <div class="bg-glow glow-bottom-right"></div>
+
+    <!-- Верхняя панель навигации -->
+    <nav class="top-navbar">
+        <div class="nav-brand">
+            <a href="/">neadapptar</a>
+        </div>
+        <div class="nav-links">
+            <a href="aboutme.html">Обо мне</a>
+            <a href="projects.html">Мои проекты</a>
+            <a href="/tweaker">Tweaker</a>
+            <a href="articles.html">Статьи</a>
+        </div>
+    </nav>
 
     <div class="container">
         
@@ -31,17 +321,6 @@
                     <span class="card-link">Подробнее →</span>
                 </a>
 
-                <a href="project/uwpremo.html" class="project-list-card">
-                    <div class="project-header">
-                        <h3>UWP-Remo</h3>
-                        <div class="tech-badge" title="C#"><i class="devicon-csharp-plain colored"></i> C#</div>
-                        <div class="tech-badge" title="WinForms"><i class="devicon-windows11-original colored"></i> WinForms</div>
-                        <div class="tech-badge" title=".NET"><i class="devicon-dot-net-plain colored"></i> .NET</div>
-                    </div>
-                    <p>Специализированная программа для очистки Windows. Удаляет встроенные UWP приложения.</p>
-                    <span class="card-link">Подробнее →</span>
-                </a>
-
                 <a href="project/tweaker.html" class="project-list-card">
                     <div class="project-header">
                         <h3>Tweaker</h3>
@@ -53,26 +332,24 @@
                     <span class="card-link">Подробнее →</span>
                 </a>
 
-                <a href="project/fitler.html" class="project-list-card">
-                    <div class="project-header">
-                        <h3>Fitler</h3>
-                        <div class="tech-badge" title="Python"><i class="devicon-python-plain colored"></i> Python</div>
-                        <div class="tech-badge" title="Web / Flask"><i class="devicon-flask-original colored"></i> Flask</div>
-                        <div class="tech-badge" title="JS"><i class="devicon-javascript-plain colored"></i> Java Script</div>
-                        <div class="tech-badge" title="html"><i class="devicon-html5-plain colored"></i> HTML</div>
-                        <div class="tech-badge" title="css"><i class="devicon-css3-plain colored"></i> CSS</div>
-                    </div>
-                    <p>В разработке...</p>
-                   <!-- <span class="card-link">Подробнее →</span> -->
-                </a>
-
                 <a href="project/yamusicparser.html" class="project-list-card">
                     <div class="project-header">
                         <h3>Yandex Music Parser</h3>
                         <div class="tech-badge" title="JS"><i class="devicon-javascript-plain colored"></i> Java Script</div>
                     </div>
                     <p>JavaScript-скрипт для парсинга (сбора) треков из плейлиста "Мое любимое" в Яндекс Музыке.</p>
-                   <!-- <span class="card-link">Подробнее →</span> -->
+                    <!-- <span class="card-link">Подробнее →</span> -->
+                </a>
+
+                <a href="project/dynamicisland.html" class="project-list-card">
+                    <div class="project-header">
+                        <h3>Dynamic Island</h3>
+                        <div class="tech-badge" title="C#"><i class="devicon-csharp-plain colored"></i> C#</div>
+                        <div class="tech-badge" title="WinForms"><i class="devicon-windows11-original colored"></i> WPF</div>
+                        <div class="tech-badge" title=".NET"><i class="devicon-dot-net-plain colored"></i> .NET</div>
+                    </div>
+                    <p>Программа для отображения изменений звука, якрости, Wi-Fi сети, Bluetooth и музыки в динамическом острове (как на IPhone).</p>
+                    <!-- <span class="card-link">Подробнее →</span> -->
                 </a>
 
             </div>
@@ -124,6 +401,17 @@
                         <div class="tech-badge" title="css"><i class="devicon-css3-plain colored"></i> CSS</div>
                     </div>
                     <p>Веб-сайт для ЧАТП в рамках игрового проекта МТА Провинция.</p>
+                    <span class="card-link">Подробнее →</span>
+                </a>
+
+                <a href="project/uwpremo.html" class="project-list-card archive">
+                    <div class="project-header">
+                        <h3>UWP-Remo</h3>
+                        <div class="tech-badge" title="C#"><i class="devicon-csharp-plain colored"></i> C#</div>
+                        <div class="tech-badge" title="WinForms"><i class="devicon-windows11-original colored"></i> WinForms</div>
+                        <div class="tech-badge" title=".NET"><i class="devicon-dot-net-plain colored"></i> .NET</div>
+                    </div>
+                    <p>Специализированная программа для очистки Windows. Удаляет встроенные UWP приложения.</p>
                     <span class="card-link">Подробнее →</span>
                 </a>
 
