@@ -6,6 +6,8 @@
     <title>About Me</title>
     <link rel="icon" href="icon.png" type="image/png">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap');
+
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -14,65 +16,169 @@
 
         body {
             font-family: "Fira Code", "Courier New", Courier, monospace;
-            background: radial-gradient(circle at center, #062013 0%, #020b06 100%);
+            background: #020b06;
             color: #e2e8f0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             overflow-x: hidden;
             position: relative;
-            padding: 40px 20px;
+            padding: 130px 20px 40px;
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(100px);
+            opacity: 0.4;
+        }
+
+        .glow-top-left {
+            top: -20vw;
+            left: -20vw;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+        }
+
+        .glow-bottom-right {
+            bottom: -20vw;
+            right: -20vw;
+            background: radial-gradient(circle, rgba(6, 95, 70, 0.2) 0%, transparent 70%);
+        }
+
+        .top-navbar {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 30px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(25px) saturate(120%);
+            -webkit-backdrop-filter: blur(25px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+        }
+
+        .nav-brand a {
+            font-size: 22px;
+            font-weight: 700;
+            color: #10b981;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+            transition: text-shadow 0.3s;
+        }
+
+        .nav-brand a:hover {
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #10b981;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .top-navbar {
+                padding: 14px 25px;
+                justify-content: center;
+            }
         }
 
         .container {
             width: 100%;
-            max-width: 750px; 
+            max-width: 800px;
             position: relative;
             z-index: 2;
         }
 
         .profile-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
-            backdrop-filter: blur(25px) saturate(150%);
-            -webkit-backdrop-filter: blur(25px) saturate(150%);
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.6);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             text-align: center;
-            padding: 45px 30px;
+            padding: 50px 40px;
             margin-bottom: 25px;
         }
 
         .avatar-placeholder {
-            width: 85px;
-            height: 85px;
-            background: rgba(0, 0, 0, 0.4);
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(0, 0, 0, 0.4));
             border-radius: 50%;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            margin: 0 auto 20px auto;
             border: 2px solid #10b981;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-            font-size: 32px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+            font-size: 36px;
         }
 
         .terminal-prompt {
-            font-size: 26px;
+            font-size: 20px;
             color: #10b981;
             font-weight: bold;
             position: relative;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         
         .terminal-prompt::after {
             content: "";
             display: inline-block;
             width: 10px;
-            height: 24px;
+            height: 20px;
             background: #10b981;
-            margin-left: 4px;
+            margin-left: 6px;
             animation: blink 1s step-end infinite;
             vertical-align: middle;
         }
@@ -82,42 +188,42 @@
         }
 
         .profile-card h1 {
-            font-size: 30px;
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #ffffff;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
         }
 
         .subtitle {
-            font-size: 14px;
+            font-size: 15px;
             color: #34d399; 
             font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
         }
 
-        .comment {
+        .comment-block {
             color: #4fa175;
             font-style: italic;
-            opacity: 0.9;
-            margin-bottom: 30px;
-            font-size: 14px;
-            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 35px;
+            font-size: 14.5px;
+            line-height: 1.7;
             text-align: left;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.15);
             border-left: 3px solid #10b981;
         }
 
-        /* Стилизация красивой таблички */
         .info-table-wrapper {
             width: 100%;
             overflow-x: auto;
             margin: 25px 0;
             border-radius: 12px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.15);
             background: rgba(0, 0, 0, 0.3);
         }
 
@@ -125,26 +231,25 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 14px;
+            font-size: 14.5px;
         }
 
         .info-table th, .info-table td {
-            padding: 14px 18px;
-            border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
             vertical-align: top;
         }
 
         .info-table th {
-            background-color: rgba(16, 185, 129, 0.1);
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, transparent 100%);
             color: #34d399;
-            font-weight: 700;
+            font-weight: 600;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
-            font-size: 11px;
-            width: 30%;
+            font-size: 13px;
+            width: 35%;
         }
 
-        .info-table tr:last-child td {
+        .info-table tr:last-child td, .info-table tr:last-child th {
             border-bottom: none;
         }
 
@@ -154,32 +259,38 @@
         }
 
         .tech-tag {
-            display: inline-block;
-            background: rgba(16, 185, 129, 0.15);
+            display: inline-flex;
+            align-items: center;
+            background: rgba(16, 185, 129, 0.1);
             color: #34d399;
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
             font-size: 13px;
-            margin: 2px;
+            margin: 3px 2px;
             border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: all 0.2s ease;
         }
 
-        /* Ссылки и контакты */
+        .tech-tag:hover {
+            background: rgba(16, 185, 129, 0.2);
+            transform: translateY(-1px);
+        }
+
         .contacts-flex {
             display: flex;
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            margin-top: 25px;
+            margin-top: 35px;
         }
 
         .action-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 20px;
+            padding: 12px 24px;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 14.5px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.2s ease;
@@ -189,11 +300,12 @@
         .primary-btn {
             background: #10b981;
             color: #ffffff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
         }
         
         .primary-btn:hover {
             background: #059669;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
             transform: translateY(-2px);
         }
 
@@ -219,6 +331,21 @@
 </head>
 <body>
 
+    <div class="bg-glow glow-top-left"></div>
+    <div class="bg-glow glow-bottom-right"></div>
+
+    <nav class="top-navbar">
+        <div class="nav-brand">
+            <a href="/">neadapptar</a>
+        </div>
+        <div class="nav-links">
+            <a href="aboutme.html">Обо мне</a>
+            <a href="projects.html">Мои проекты</a>
+            <a href="tweaker.html">Tweaker</a>
+            <a href="articles.html">Статьи</a>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="profile-card">
             <div class="avatar-placeholder">👨‍💻</div>
@@ -226,7 +353,7 @@
             <h1>Иван</h1>
             <div class="subtitle">@NeAdAppTar</div>
             
-            <div class="comment">
+            <div class="comment-block">
                 /* <br>
                 &nbsp;* Привет! Я учусь в школе и активно развиваюсь в сфере программирования и инженерии.<br>
                 &nbsp;* Мой основной профиль — это разработка десктопных приложений с графическим интерфейсом (GUI),<br>
@@ -236,7 +363,6 @@
                 &nbsp;*/
             </div>
 
-            <!-- Красивая табличка с информацией -->
             <div class="info-table-wrapper">
                 <table class="info-table">
                     <tbody>
@@ -271,7 +397,6 @@
                 </table>
             </div>
 
-            <!-- Кнопки-ссылки на контакты -->
             <div class="contacts-flex">
                 <a href="https://github.com/NeAdAppTar" target="_blank" class="action-btn primary-btn">
                     GitHub: NeAdAppTar
