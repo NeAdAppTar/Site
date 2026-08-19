@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статьи - neadapptar</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    
+    <!-- Подключаем общий файл со стилями -->
+    <link rel="stylesheet" href="art/art.css">
+    
+    <style>
+        /* Дополнительные стили только для списка статей */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #34d399;
+            font-weight: 600;
+        }
+
+        .post-card {
+            padding: 35px 40px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            display: block;
+            text-decoration: none;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            border-color: #34d399;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(52, 211, 153, 0.2);
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        }
+
+        .post-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+
+        .post-card:hover .post-title {
+            color: #10b981;
+        }
+
+        .post-excerpt {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .read-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover .read-more-btn {
+            background: #10b981;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .draft-card {
+            opacity: 0.6;
+            pointer-events: none;
+            border-style: dashed;
+        }
+
+        @media (max-width: 600px) {
+            .post-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow glow-top-left"></div>
+    <div class="bg-glow glow-bottom-right"></div>
+
+    <nav class="top-navbar">
+        <div class="nav-brand">
+            <a href="/">neadapptar</a>
+        </div>
+        <div class="nav-links">
+            <a href="aboutme.html">Обо мне</a>
+            <a href="projects.html">Мои проекты</a>
+            <a href="tweaker.html">Tweaker</a>
+            <a href="articles.html">Статьи</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="page-header">
+            <h1 class="page-title">Статьи и логи</h1>
+            <p class="subtitle">// Дневники разработки, туториалы и полезные заметки</p>
+        </header>
+
+        <a href="art/tweaker-dev-diary-1.html" class="article-card post-card">
+            <div class="article-meta">
+                <span>19 августа 2026</span>
+            </div>
+            
+            <h2 class="post-title">Дневник разработки: Tweaker v0.5.0</h2>
+            
+            <p class="post-excerpt">
+                Подробный разбор текущего состояния моей утилиты для настройки Windows.
+            </p>
+            
+            <div class="read-more-btn">
+                Читать далее _
+            </div>
+        </a>
+
+        <div class="site-footer">
+            &copy; 2026 NeAdAppTar.
+        </div>
+    </div>
+
+</body>
+</html>
