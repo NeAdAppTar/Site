@@ -8,6 +8,43 @@
     
     <!-- Подключаем наш отдельный файл со стилями -->
     <link rel="stylesheet" href="art.css">
+<style id="performance-overrides">
+/* Lightweight rendering path: avoids large blur layers being repainted while scrolling. */
+.bg-glow {
+    filter: blur(55px) !important;
+    opacity: 0.28 !important;
+    transform: translateZ(0);
+}
+.top-navbar {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+.article-card {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+.article-image, .gallery-item, .grid-card, .project-list-card {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
+}
+@media (max-width: 768px) {
+    .bg-glow {
+        filter: none !important;
+        opacity: 0.16 !important;
+        transform: none;
+    }
+    .top-navbar, .article-card {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    .article-card {
+        box-shadow: 0 10px 24px rgba(0,0,0,.34) !important;
+    }
+    .article-image {
+        box-shadow: 0 6px 20px rgba(0,0,0,.32) !important;
+    }
+}
+</style>
 </head>
 <body>
 
@@ -44,7 +81,7 @@
                 <p>Настройки проводника — это то, с чем мы сталкиваемся каждый день. Я вывел самые раздражающие мелочи в отдельные тумблеры, чтобы их можно было решить в один клик. Прямо из приложения можно перезапустить процесс `explorer.exe`, чтобы изменения вступили в силу мгновенно.</p>
                 
                 <!-- Фотка вкладки Проводник -->
-                <img src="tweaker-dev-diary-1/tweaker-explorer.png" alt="Вкладка Проводник в Tweaker" class="article-image">
+                <img src="tweaker-dev-diary-1/tweaker-explorer.png" alt="Вкладка Проводник в Tweaker" class="article-image" loading="lazy" decoding="async">
 
                 <ul>
                     <li><strong>Отображение скрытых элементов:</strong> Включение показа расширений файлов и скрытых папок.</li>
@@ -56,7 +93,7 @@
                 <p>Интерфейс Windows 11 красивый, но иногда его хочется сделать удобнее и строже. В этом разделе я собрал твики для визуальной части системы:</p>
                 
                 <!-- Фотка вкладки Персонализация -->
-                <img src="tweaker-dev-diary-1/tweaker-personalization.png" alt="Вкладка Персонализация в Tweaker" class="article-image">
+                <img src="tweaker-dev-diary-1/tweaker-personalization.png" alt="Вкладка Персонализация в Tweaker" class="article-image" loading="lazy" decoding="async">
 
                 <ul>
                     <li>Принудительное включение тёмной темы.</li>
@@ -70,7 +107,7 @@
                 <p>Самый мощный раздел программы. Здесь отключаются функции, которые часто потребляют ресурсы в фоновом режиме или просто мешают продвинутым пользователям. <em>Внимание: некоторые из этих настроек снижают безопасность системы, так что используйте их с умом.</em></p>
                 
                 <!-- Фотка вкладки Система -->
-                <img src="tweaker-dev-diary-1/tweaker-system.png" alt="Вкладка Система в Tweaker" class="article-image">
+                <img src="tweaker-dev-diary-1/tweaker-system.png" alt="Вкладка Система в Tweaker" class="article-image" loading="lazy" decoding="async">
 
                 <ul>
                     <li>Полное отключение телеметрии и слежки в Windows.</li>
@@ -85,7 +122,7 @@
                 <p>Если система уже начала «тормозить», в Tweaker встроены инструменты для её обслуживания. Больше не нужно запоминать консольные команды.</p>
                 
                 <!-- Фотка вкладки Восстановление -->
-                <img src="tweaker-dev-diary-1/tweaker-recovery.png" alt="Вкладка Восстановление в Tweaker" class="article-image">
+                <img src="tweaker-dev-diary-1/tweaker-recovery.png" alt="Вкладка Восстановление в Tweaker" class="article-image" loading="lazy" decoding="async">
 
                 <p>Через удобные кнопки можно запустить проверку и восстановление системных файлов с помощью утилит <strong>SFC (System File Checker)</strong> и <strong>DISM</strong>. Также реализована очистка папок <span class="code-tag">Temp</span> от скопившегося мусора.</p>
                 
@@ -93,7 +130,7 @@
                 <p>В Windows встроено огромное количество UWP-приложений, которые невозможно удалить стандартными средствами. Tweaker сканирует систему и делит все установленные программы на два списка:</p>
                 
                 <!-- Фотка вкладки UWP -->
-                <img src="tweaker-dev-diary-1/tweaker-uwp.png" alt="Вкладка UWP-приложений в Tweaker" class="article-image">
+                <img src="tweaker-dev-diary-1/tweaker-uwp.png" alt="Вкладка UWP-приложений в Tweaker" class="article-image" loading="lazy" decoding="async">
 
                 <ul>
                     <li><strong>Обычные приложения:</strong> Безопасны для удаления (калькулятор, погода, карты и т.д.).</li>
@@ -104,7 +141,7 @@
                 <p>В настройках уже есть поддержка смены тем приложения, поддержка русского языка (английский будет реализован в будущем), а также тумблер активации экспериментальных функций.</p>
                 
                 <!-- Фотка вкладки Настройки -->
-                <img src="tweaker-dev-diary-1/tweaker-settings.png" alt="Настройки программы Tweaker" class="article-image">
+                <img src="tweaker-dev-diary-1/tweaker-settings.png" alt="Настройки программы Tweaker" class="article-image" loading="lazy" decoding="async">
 
                 <h2>Что дальше?</h2>
                 <p>В будущем я планирую подписать пояснения для некоторых кнопок, расширить функционал, добавить более удобный диспетчер задач и управление установленными программами. Также появится возможность активировать нововведения на инсайдерских сборках системы.</p>

@@ -367,6 +367,43 @@
             }
         }
     </style>
+<style id="performance-overrides">
+/* Lightweight rendering path: avoids large blur layers being repainted while scrolling. */
+.bg-glow {
+    filter: blur(55px) !important;
+    opacity: 0.28 !important;
+    transform: translateZ(0);
+}
+.top-navbar {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+.article-card {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+.article-image, .gallery-item, .grid-card, .project-list-card {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
+}
+@media (max-width: 768px) {
+    .bg-glow {
+        filter: none !important;
+        opacity: 0.16 !important;
+        transform: none;
+    }
+    .top-navbar, .article-card {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    .article-card {
+        box-shadow: 0 10px 24px rgba(0,0,0,.34) !important;
+    }
+    .article-image {
+        box-shadow: 0 6px 20px rgba(0,0,0,.32) !important;
+    }
+}
+</style>
 </head>
 <body>
 
@@ -470,7 +507,7 @@
 
         ym(110603899, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/110603899" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <noscript><div><img src="https://mc.yandex.ru/watch/110603899" style="position:absolute; left:-9999px;" alt="" / loading="lazy" decoding="async"></div></noscript>
     <!-- /Yandex.Metrika counter -->
 </body>
 </html>

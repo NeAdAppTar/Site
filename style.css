@@ -27,8 +27,8 @@ body {
 
 .profile-card, .grid-card {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
-    backdrop-filter: blur(25px) saturate(150%);
-    -webkit-backdrop-filter: blur(25px) saturate(150%);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
     border: 1px solid rgba(16, 185, 129, 0.15);
     border-radius: 20px;
     box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.6);
@@ -116,7 +116,7 @@ body {
     color: inherit;
     padding: 30px;
     margin-bottom: 20px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 @media (min-width: 600px) {
@@ -229,12 +229,12 @@ body {
 
 .project-list-card {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
-    backdrop-filter: blur(25px) saturate(150%);
-    -webkit-backdrop-filter: blur(25px) saturate(150%);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
     border: 1px solid rgba(16, 185, 129, 0.15);
     border-radius: 16px;
     padding: 25px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     text-decoration: none; 
     display: block;
 }
@@ -298,8 +298,8 @@ body {
 
 .project-page-card {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-    backdrop-filter: blur(25px) saturate(150%);
-    -webkit-backdrop-filter: blur(25px) saturate(150%);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
     border: 1px solid rgba(16, 185, 129, 0.15);
     border-radius: 20px;
     padding: 40px;
@@ -480,3 +480,29 @@ body {
     margin-bottom: 35px;
 }
 
+
+
+/* Performance tuning */
+@media (max-width: 768px) {
+    .profile-card, .grid-card, .project-list-card, .project-page-card {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    .profile-card, .grid-card, .project-list-card, .project-page-card {
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.34);
+    }
+
+    .grid-card:hover, .project-list-card:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
