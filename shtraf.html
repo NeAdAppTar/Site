@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Штраф Google в реальном времени — математически точный интерактивный расчёт.">
+    <title>Штраф Google в реальном времени</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .fine-page {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .fine-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.012) 100%);
+            backdrop-filter: blur(10px) saturate(120%);
+            -webkit-backdrop-filter: blur(10px) saturate(120%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.58), 0 0 45px rgba(16, 185, 129, 0.035);
+            overflow: hidden;
+        }
+
+        .fine-header {
+            padding: 34px 34px 28px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+        }
+
+        .fine-kicker {
+            color: #10b981;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .fine-title {
+            color: #fff;
+            font-size: clamp(25px, 4vw, 36px);
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            margin-bottom: 10px;
+        }
+
+        .fine-subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.65;
+            max-width: 720px;
+        }
+
+        .live-status {
+            margin-top: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .live-clock {
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        .live-clock strong {
+            color: #fff;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            background: rgba(16, 185, 129, 0.07);
+            color: #a7f3d0;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #34d399;
+            box-shadow: 0 0 12px rgba(52, 211, 153, 0.8);
+            animation: live-pulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes live-pulse {
+            50% { opacity: .45; transform: scale(.85); }
+        }
+
+        .amount-panel {
+            padding: 32px 34px 28px;
+        }
+
+        .amount-label {
+            color: #64748b;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .main-amount {
+            color: #ffffff;
+            font-size: clamp(24px, 4.35vw, 50px);
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -1.15px;
+            overflow-wrap: anywhere;
+            text-shadow: 0 0 24px rgba(52, 211, 153, 0.08);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .amount-scale {
+            display: block;
+            margin-top: 10px;
+            color: #4fa175;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .currency-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .currency-card {
+            min-width: 0;
+            background: rgba(0, 0, 0, 0.17);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .currency-name {
+            color: #34d399;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .currency-amount {
+            color: #f8fafc;
+            font-size: clamp(15px, 2.2vw, 21px);
+            line-height: 1.45;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            overflow-wrap: anywhere;
+        }
+
+        .currency-rate {
+            color: #64748b;
+            font-size: 11px;
+            margin-top: 9px;
+            line-height: 1.5;
+        }
+
+        .currency-rate strong {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            padding: 0 34px 34px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.055), rgba(255, 255, 255, 0.012));
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 16px;
+            padding: 20px;
+            min-width: 0;
+        }
+
+        .stat-card-wide {
+            grid-column: 1 / -1;
+        }
+
+        .stat-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .stat-title .icon {
+            color: #10b981;
+            font-size: 15px;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-size: clamp(16px, 2.3vw, 25px);
+            line-height: 1.35;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-description {
+            color: #4f6175;
+            font-size: 11px;
+            line-height: 1.5;
+            margin-top: 8px;
+        }
+
+        .fine-note {
+            margin: 0 34px 34px;
+            padding: 18px 20px;
+            border-left: 2px solid rgba(16, 185, 129, .5);
+            background: rgba(16, 185, 129, .035);
+            border-radius: 0 12px 12px 0;
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .fine-note strong {
+            color: #cbd5e1;
+        }
+
+        .fine-footer {
+            padding: 20px 34px 26px;
+            border-top: 1px solid rgba(16, 185, 129, 0.08);
+            color: #475569;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .fine-footer-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .fine-footer a {
+            color: #64748b;
+        }
+
+        .fine-footer a:hover {
+            color: #10b981;
+        }
+
+        .fine-updated {
+            color: #34d399;
+            font-variant-numeric: tabular-nums;
+        }
+
+        @media (max-width: 680px) {
+            .fine-header,
+            .amount-panel {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+            .stats-grid {
+                padding: 0 22px 22px;
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card-wide {
+                grid-column: auto;
+            }
+
+            .fine-note {
+                margin-left: 22px;
+                margin-right: 22px;
+            }
+
+            .fine-footer {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+            .currency-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .fine-card {
+                border-radius: 16px;
+            }
+            .fine-header {
+                padding-top: 26px;
+            }
+            .main-amount {
+                font-size: 22px;
+            }
+            .currency-amount,
+            .stat-value {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .fine-card {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                box-shadow: 0 8px 22px rgba(0, 0, 0, 0.36);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .status-dot {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow glow-top-left"></div>
+    <div class="bg-glow glow-bottom-right"></div>
+
+    <div class="fine-page">
+        <div class="back-navigation">
+            <a href="https://maksimushka.ru/" class="card-link">← На главную</a>
+        </div>
+
+        <main class="fine-card" aria-live="polite">
+            <header class="fine-header">
+                <div class="fine-kicker">&gt; LIVE / GOOGLE FINE</div>
+                <h1 class="fine-title">Штраф Google в реальном времени</h1>
+                <p class="fine-subtitle">Математически точный расчёт с актуальными курсами валют. Сумма пересчитывается по фактическому времени Москвы без использования числового типа с потерей точности.</p>
+
+                <div class="live-status">
+                    <div class="live-clock">Текущее время в Москве: <strong id="moscowTime">--:--:--</strong></div>
+                    <div class="status-chip"><span class="status-dot"></span><span>РАСЧЁТ В ПРЯМОМ ЭФИРЕ</span></div>
+                </div>
+            </header>
+
+            <section class="amount-panel">
+                <div class="amount-label">Текущий размер штрафа</div>
+                <div class="main-amount" id="rubAmount">0 ₽</div>
+                <span class="amount-scale">≈ вигинтиллион (10^63)</span>
+
+                <div class="currency-grid">
+                    <div class="currency-card">
+                        <div class="currency-name">USD</div>
+                        <div class="currency-amount" id="usdAmount">0 $</div>
+                        <div class="currency-rate">Курс: <strong id="usdRate">1 ₽ = 0.011900 $</strong></div>
+                    </div>
+                    <div class="currency-card">
+                        <div class="currency-name">EUR</div>
+                        <div class="currency-amount" id="eurAmount">0 €</div>
+                        <div class="currency-rate">Курс: <strong id="eurRate">1 ₽ = 0.010200 €</strong></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-grid">
+                <div class="stat-card stat-card-wide">
+                    <div class="stat-title"><span class="icon">💰</span> Суточная ставка</div>
+                    <div class="stat-value" id="dailyRate">0 ₽</div>
+                    <div class="stat-description">Сумма начисления за 24 часа при текущей ставке.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-title"><span class="icon">⏱️</span> Прирост / час</div>
+                    <div class="stat-value" id="hourRate">0 ₽</div>
+                    <div class="stat-description">Скорость увеличения штрафа за 1 час.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-title"><span class="icon">⚡</span> Прирост / минуту</div>
+                    <div class="stat-value" id="minuteRate">0 ₽</div>
+                    <div class="stat-description">Скорость увеличения штрафа за 1 минуту.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-title"><span class="icon">⏱️</span> Прирост / секунду</div>
+                    <div class="stat-value" id="secondRate">0 ₽</div>
+                    <div class="stat-description">Средний целочисленный прирост за 1 секунду.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-title"><span class="icon">📅</span> Дней с начала</div>
+                    <div class="stat-value" id="daysCount">0 дней</div>
+                    <div class="stat-description">Количество дней с 8 декабря 2022 года.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-title"><span class="icon">🎯</span> Текущая неделя</div>
+                    <div class="stat-value" id="weekCount">0 неделя</div>
+                    <div class="stat-description">Номер недели с начала начисления штрафа.</div>
+                </div>
+            </section>
+
+            <div class="fine-note">
+                Расчёт основан на сведениях о судебных решениях по искам российских телеканалов к Google (владельцу YouTube). <strong>Все большие целые числа считаются через BigInt.</strong> Значение штрафа закреплено на контрольной точке и далее увеличивается пропорционально фактически прошедшему времени.
+            </div>
+
+            <footer class="fine-footer">
+                <div class="fine-footer-row">
+                    <span>Точность: <strong>целые числа без округления</strong></span>
+                    <span>Частота отображения: <strong>до 60 кадров/с</strong></span>
+                </div>
+                <div class="fine-footer-row" style="margin-top: 7px;">
+                    <span id="rateStatus">Курсы валют загружены</span><span>Источник курсов: <a href="https://www.cbr.ru/currency_base/daily/" target="_blank" rel="noopener noreferrer">Банк России</a> (с резервным значением)</span>
+                    <span>Последнее обновление: <span class="fine-updated" id="updatedTime">--:--:--</span></span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        (() => {
+            "use strict";
+
+            // Контрольная точка из исходных данных пользователя.
+            // На неё приходится текущее значение 109 785 ... 376 370 ₽.
+            const ANCHOR_ISO = "2026-09-13T22:20:50+03:00";
+            const ANCHOR_AMOUNT = 109785427365562065462737035094717803822093139673222684533638376370n;
+
+            // Суточная ставка из исходных данных. Все дальнейшие деления
+            // выполняются как целочисленная арифметика BigInt.
+            const DAILY_RATE = 10043362776618689222137263077132266265763768711142455220633600000n;
+            const SECOND_DENOMINATOR = 86400000n; // миллисекунды в сутках
+
+            const FALLBACK_USD = { rublesPerUnit: 84.2569, rublesPerUnitText: "84.2569" };
+            const FALLBACK_EUR = { rublesPerUnit: 97.8728, rublesPerUnitText: "97.8728" };
+
+            const els = {
+                rub: document.getElementById("rubAmount"),
+                usd: document.getElementById("usdAmount"),
+                eur: document.getElementById("eurAmount"),
+                usdRate: document.getElementById("usdRate"),
+                eurRate: document.getElementById("eurRate"),
+                daily: document.getElementById("dailyRate"),
+                hour: document.getElementById("hourRate"),
+                minute: document.getElementById("minuteRate"),
+                second: document.getElementById("secondRate"),
+                days: document.getElementById("daysCount"),
+                weeks: document.getElementById("weekCount"),
+                clock: document.getElementById("moscowTime"),
+                updated: document.getElementById("updatedTime"),
+                rateStatus: document.getElementById("rateStatus")
+            };
+
+            const anchorMs = Date.parse(ANCHOR_ISO);
+            let usdScale = 1000000n;
+            let usdRubScaled = decimalToScaled(FALLBACK_USD.rublesPerUnit, 6);
+            let eurScale = 1000000n;
+            let eurRubScaled = decimalToScaled(FALLBACK_EUR.rublesPerUnit, 6)
+            let lastFrame = 0;
+
+            function formatInteger(value, suffix) {
+                return value.toLocaleString("ru-RU", { useGrouping: true }) + " " + suffix;
+            }
+
+            function decimalToScaled(value, scaleDigits = 6) {
+                const normalized = String(value).trim().replace(",", ".");
+                const [whole = "0", fraction = ""] = normalized.split(".");
+                const cleanFraction = (fraction + "0".repeat(scaleDigits)).slice(0, scaleDigits);
+                return BigInt(whole) * (10n ** BigInt(scaleDigits)) + BigInt(cleanFraction || "0");
+            }
+
+            function rublesToCurrency(rubles, rubPerUnitScaled, scale) {
+                // rubles / (rubles per currency unit)
+                return rubles * scale / rubPerUnitScaled;
+            }
+
+            function currentFine(nowMs) {
+                const delta = BigInt(Math.max(0, Math.floor(nowMs - anchorMs)));
+                return ANCHOR_AMOUNT + (DAILY_RATE * delta) / SECOND_DENOMINATOR;
+            }
+
+            function formatMoscowTime(date) {
+                return new Intl.DateTimeFormat("ru-RU", {
+                    timeZone: "Europe/Moscow",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false
+                }).format(date);
+            }
+
+            function render(nowMs) {
+                const amount = currentFine(nowMs);
+
+                els.rub.textContent = formatInteger(amount, "₽");
+                els.usd.textContent = formatInteger(rublesToCurrency(amount, usdRubScaled, usdScale), "$");
+                els.eur.textContent = formatInteger(rublesToCurrency(amount, eurRubScaled, eurScale), "€");
+
+                const hour = DAILY_RATE / 24n;
+                const minute = DAILY_RATE / 1440n;
+                const second = DAILY_RATE / 86400n;
+
+                els.daily.textContent = formatInteger(DAILY_RATE, "₽");
+                els.hour.textContent = formatInteger(hour, "₽");
+                els.minute.textContent = formatInteger(minute, "₽");
+                els.second.textContent = formatInteger(second, "₽");
+
+                const startDate = new Date(anchorMs);
+                const currentDate = new Date(nowMs);
+                const startUTC = Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate());
+                const currentUTC = Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate());
+                const days = Math.max(0, Math.floor((currentUTC - startUTC) / 86400000));
+                const week = Math.max(1, Math.ceil(days / 7));
+
+                els.days.textContent = formatInteger(BigInt(days), "дней");
+                els.weeks.textContent = formatInteger(BigInt(week), "неделя");
+                els.clock.textContent = formatMoscowTime(new Date(nowMs));
+                els.updated.textContent = formatMoscowTime(new Date(nowMs));
+            }
+
+            async function loadRates() {
+                try {
+                    const response = await fetch("https://www.cbr.ru/scripts/XML_daily.asp", {
+                        cache: "no-store",
+                        mode: "cors"
+                    });
+                    if (!response.ok) throw new Error("HTTP " + response.status);
+
+                    const xmlText = await response.text();
+                    const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+                    const currencies = Array.from(xml.querySelectorAll("Valute"));
+
+                    const findRate = code => {
+                        const item = currencies.find(node => node.querySelector("CharCode")?.textContent === code);
+                        const value = item?.querySelector("Value")?.textContent?.replace(",", ".");
+                        if (!value) return null;
+                        return decimalToScaled(value, 6);
+                    };
+
+                    const usd = findRate("USD");
+                    const eur = findRate("EUR");
+
+                    if (usd && eur) {
+                        usdRubScaled = usd;
+                        eurRubScaled = eur;
+                        usdScale = 1000000n;
+                        eurScale = 1000000n;
+
+                        const usdRate = (Number(usd) / 1e6);
+                        const eurRate = (Number(eur) / 1e6);
+                        els.usdRate.textContent = `1 ₽ = ${(1 / usdRate).toFixed(6)} $`;
+                        els.eurRate.textContent = `1 ₽ = ${(1 / eurRate).toFixed(6)} €`;
+                        els.rateStatus.textContent = "Курсы валют загружены";
+                    }
+                } catch (error) {
+                    // Официальный CBR может запрещать cross-origin запросы.
+                    // В таком случае используются контрольные значения из исходных данных.
+                    els.usdRate.textContent = `1 ₽ = ${(1 / FALLBACK_USD.rublesPerUnit).toFixed(6)} $ · резерв`;
+                    els.eurRate.textContent = `1 ₽ = ${(1 / FALLBACK_EUR.rublesPerUnit).toFixed(6)} € · резерв`;
+                    els.rateStatus.textContent = "Курсы валют: резервное значение";
+                }
+            }
+
+            function tick(timestamp) {
+                const now = Date.now();
+
+                // requestAnimationFrame даёт максимально плавное обновление,
+                // при этом сам расчёт не превышает реальную частоту кадров.
+                if (timestamp - lastFrame >= 1000 / 60 || !lastFrame) {
+                    render(now);
+                    lastFrame = timestamp;
+                }
+
+                requestAnimationFrame(tick);
+            }
+
+            render(Date.now());
+            loadRates();
+            requestAnimationFrame(tick);
+            setInterval(loadRates, 15 * 60 * 1000);
+        })();
+    </script>
+</body>
+</html>
