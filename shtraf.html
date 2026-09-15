@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,7 +93,10 @@
         }
 
         @keyframes live-pulse {
-            50% { opacity: .45; transform: scale(.85); }
+            50% {
+                opacity: .45;
+                transform: scale(.85);
+            }
         }
 
         .amount-panel {
@@ -264,6 +268,7 @@
         }
 
         @media (max-width: 680px) {
+
             .fine-header,
             .amount-panel {
                 padding-left: 22px;
@@ -298,12 +303,15 @@
             .fine-card {
                 border-radius: 16px;
             }
+
             .fine-header {
                 padding-top: 26px;
             }
+
             .main-amount {
                 font-size: 22px;
             }
+
             .currency-amount,
             .stat-value {
                 font-size: 15px;
@@ -325,6 +333,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="bg-glow glow-top-left"></div>
     <div class="bg-glow glow-bottom-right"></div>
@@ -338,7 +347,8 @@
             <header class="fine-header">
                 <div class="fine-kicker">&gt; LIVE / GOOGLE FINE</div>
                 <h1 class="fine-title">Штраф Google в реальном времени</h1>
-                <p class="fine-subtitle">Математически точный расчёт с актуальными курсами валют. Сумма пересчитывается по фактическому времени Москвы без использования числового типа с потерей точности.</p>
+                <p class="fine-subtitle">Математически точный расчёт с актуальными курсами валют. Сумма пересчитывается
+                    по фактическому времени Москвы без использования числового типа с потерей точности.</p>
 
                 <div class="live-status">
                     <div class="live-clock">Текущее время в Москве: <strong id="moscowTime">--:--:--</strong></div>
@@ -404,7 +414,9 @@
             </section>
 
             <div class="fine-note">
-                Расчёт основан на сведениях о судебных решениях по искам российских телеканалов к Google (владельцу YouTube). <strong>Все большие целые числа считаются через BigInt.</strong> Значение штрафа закреплено на контрольной точке и далее увеличивается пропорционально фактически прошедшему времени.
+                Расчёт основан на сведениях о судебных решениях по искам российских телеканалов к Google (владельцу
+                YouTube). <strong>Все большие целые числа считаются через BigInt.</strong> Значение штрафа закреплено на
+                контрольной точке и далее увеличивается пропорционально фактически прошедшему времени.
             </div>
 
             <footer class="fine-footer">
@@ -413,7 +425,9 @@
                     <span>Частота отображения: <strong>до 60 кадров/с</strong></span>
                 </div>
                 <div class="fine-footer-row" style="margin-top: 7px;">
-                    <span id="rateStatus">Курсы валют загружены</span><span>Источник курсов: <a href="https://www.cbr.ru/currency_base/daily/" target="_blank" rel="noopener noreferrer">Банк России</a> (с резервным значением)</span>
+                    <span id="rateStatus">Курсы валют загружены</span><span>Источник курсов: <a
+                            href="https://www.cbr.ru/currency_base/daily/" target="_blank"
+                            rel="noopener noreferrer">Банк России</a> (с резервным значением)</span>
                     <span>Последнее обновление: <span class="fine-updated" id="updatedTime">--:--:--</span></span>
                 </div>
             </footer>
@@ -508,12 +522,12 @@
                 els.minute.textContent = formatInteger(minute, "₽");
                 els.second.textContent = formatInteger(second, "₽");
 
-                const startDate = new Date(anchorMs);
+                const startDate = new Date("2022-12-08T00:00:00+03:00");
                 const currentDate = new Date(nowMs);
-                const startUTC = Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate());
-                const currentUTC = Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate());
+                const startUTC = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+                const currentUTC = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
                 const days = Math.max(0, Math.floor((currentUTC - startUTC) / 86400000));
-                const week = Math.max(1, Math.ceil(days / 7));
+                const week = Math.floor(days / 7) + 1;
 
                 els.days.textContent = formatInteger(BigInt(days), "дней");
                 els.weeks.textContent = formatInteger(BigInt(week), "неделя");
@@ -584,4 +598,5 @@
         })();
     </script>
 </body>
+
 </html>
